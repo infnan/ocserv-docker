@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:24.04
 MAINTAINER Wyatt Pan <wppurking@gmail.com>
 
 ADD ./certs /opt/certs
@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y \
     build-essential wget xz-utils libgnutls28-dev \
     libev-dev libwrap0-dev libpam0g-dev libseccomp-dev libreadline-dev \
     libnl-route-3-dev libkrb5-dev liboath-dev libtalloc-dev \
-    libhttp-parser-dev libpcl1-dev libopts25-dev autogen pkg-config nettle-dev \
-    gnutls-bin gperf liblockfile-bin nuttcp lcov iptables unzip dnsmasq \
+    libhttp-parser-dev libopts25-dev autogen pkg-config nettle-dev \
+    gnutls-bin gperf liblockfile-bin nuttcp lcov iptables unzip dnsmasq ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # configuration dnsmasq
@@ -31,7 +31,8 @@ RUN mkdir -p /temp && cd /temp \
 RUN mkdir -p /temp && cd /temp \
     && wget https://github.com/lz4/lz4/releases/latest -O lz4.html \
     && export lz4_version=$(cat lz4.html | grep -m 1 -o 'v[0-9]\.[0-9]\.[0-9]') \
-    && export lz4_suffix=$(cat lz4.html | grep -m 1 -o '[0-9]\.[0-9]\.[0-9]') \
+    # && export lz4_suffix=$(cat lz4.html | grep -m 1 -o '[0-9]\.[0-9]\.[0-9]') \
+    && export lz4_suffix=1.9.4 \
     && wget https://github.com/lz4/lz4/archive/$lz4_version.tar.gz \
     && tar xvf $lz4_version.tar.gz \
     && cd lz4-$lz4_suffix \
